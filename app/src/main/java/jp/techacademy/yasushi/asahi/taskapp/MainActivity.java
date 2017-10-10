@@ -10,6 +10,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import io.realm.Realm;
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     };
     private ListView mListView;
     private TaskAdapter mTaskAdapter;
+    private EditText mEditText;
+    private Button mSortButton, mUnsortButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +116,36 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        mEditText = (EditText) findViewById(R.id.editText1);
+        mSortButton = (Button) findViewById(R.id.sortButton);
+        mUnsortButton = (Button) findViewById(R.id.unsortButton);
+
+        mSortButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String category = mEditText.getText().toString();
+                RealmResults<Task> sortedByCategoryResult = mRealm.where(Task.class)
+                        .equalTo("category", category)
+                        .or()
+                        .equalTo("category", category)
+                        .findAll();
+                if (sortedByCategoryResult.size() != 0) {
+                    mTaskAdapter.setTaskList(mRealm.copyFromRealm(sortedByCategoryResult));
+                    mListView.setAdapter(mTaskAdapter);
+                    mTaskAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+        mUnsortButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reloadListView();
+                mEditText.setText("");
+            }
+        });
+
 
         reloadListView();
     }

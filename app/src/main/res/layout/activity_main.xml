@@ -18,14 +18,14 @@
             android:id="@+id/editText1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="カテゴリー名でソート"
+            android:hint="カテゴリー名で絞込"
             android:background="#fff"
             android:layout_weight="0.60" />
         <Button
             android:id="@+id/sortButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ソート"
+            android:text="絞込"
 
             android:layout_weight="0.20"/>
         <Button
